@@ -1,0 +1,12 @@
+﻿#formLayoutUtilizatori {
+    margin: 0 auto;
+    float: none !important;
+    display: table;
+    width: 500px;
+}
+#formLayoutClienti {
+    margin: 0 auto;
+    float: none !important;
+    display: table;
+    width: 500px;
+}

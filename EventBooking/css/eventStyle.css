@@ -1,0 +1,49 @@
+﻿.dxcvCard_Material, .dxcvFlowCard_Material, .dxcvBreakpointsCard_Material, .dxcvEmptyCard_Material, .dxcvEmptyHiddenCard_Material {
+    padding-bottom: 12px;
+}
+
+.locationCombo {
+    border: none;
+}
+
+.locationCombo .dxeButton {
+    display: none;
+}
+
+.photo {
+    padding-bottom: 20px;
+}
+
+div > .name {
+    padding-bottom: 20px;
+}
+
+.name {
+    font-size: 18pt;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+.locationContainer > span {
+    padding-left: 10px;
+}
+
+.dateContainer > span {
+    padding-left: 10px;
+}
+
+.priceContainer > span {
+    padding-left: 10px;
+}
+
+.availablePlacesContainer > span {
+    padding-left: 10px;
+}
+.btnContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.btnBookEvents {
+   margin-top: 30px;
+}

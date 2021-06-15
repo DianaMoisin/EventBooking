@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CulturalHouseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Clients">
+    <Key>
+      <PropertyRef Name="ClientId" />
+    </Key>
+    <Property Name="ClientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Events" Relationship="CulturalHouseModel.ClientEvents" FromRole="Clients" ToRole="Events" />
+  </EntityType>
+  <EntityType Name="Locations">
+    <Key>
+      <PropertyRef Name="LocationId" />
+    </Key>
+    <Property Name="LocationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Events" Relationship="CulturalHouseModel.FK_Events_Locations" FromRole="Locations" ToRole="Events" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Events" Relationship="CulturalHouseModel.UserEvents" FromRole="Users" ToRole="Events" />
+  </EntityType>
+  <EntityContainer Name="CulturalHouseEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Clients" EntityType="Self.Clients" />
+    <EntitySet Name="Locations" EntityType="Self.Locations" />
+    <EntitySet Name="Users" EntityType="Self.Users" />
+    <EntitySet Name="Events" EntityType="CulturalHouseModel.Events" />
+    <AssociationSet Name="FK_Events_Locations" Association="CulturalHouseModel.FK_Events_Locations">
+      <End Role="Locations" EntitySet="Locations" />
+      <End Role="Events" EntitySet="Events" />
+    </AssociationSet>
+    <AssociationSet Name="ClientEvents" Association="CulturalHouseModel.ClientEvents">
+      <End Role="Clients" EntitySet="Clients" />
+      <End Role="Events" EntitySet="Events" />
+    </AssociationSet>
+    <AssociationSet Name="UserEvents" Association="CulturalHouseModel.UserEvents">
+      <End Role="Events" EntitySet="Events" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Events">
+    <Key>
+      <PropertyRef Name="EventId" />
+    </Key>
+    <Property Name="EventId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="LocationId" Type="Int32" Nullable="false" />
+    <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Approved" Type="Boolean" Nullable="false" />
+    <Property Name="AvailablePlaces" Type="Int32" Nullable="false" />
+    <Property Name="Photo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Locations" Relationship="CulturalHouseModel.FK_Events_Locations" FromRole="Events" ToRole="Locations" />
+    <NavigationProperty Name="Clients" Relationship="CulturalHouseModel.ClientEvents" FromRole="Events" ToRole="Clients" />
+    <NavigationProperty Name="Users" Relationship="CulturalHouseModel.UserEvents" FromRole="Events" ToRole="Users" />
+  </EntityType>
+  <Association Name="FK_Events_Locations">
+    <End Type="CulturalHouseModel.Locations" Role="Locations" Multiplicity="1" />
+    <End Type="CulturalHouseModel.Events" Role="Events" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Locations">
+        <PropertyRef Name="LocationId" />
+      </Principal>
+      <Dependent Role="Events">
+        <PropertyRef Name="LocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ClientEvents">
+    <End Type="CulturalHouseModel.Clients" Role="Clients" Multiplicity="*" />
+    <End Type="CulturalHouseModel.Events" Role="Events" Multiplicity="*" />
+  </Association>
+  <Association Name="UserEvents">
+    <End Type="CulturalHouseModel.Events" Role="Events" Multiplicity="*" />
+    <End Type="CulturalHouseModel.Users" Role="Users" Multiplicity="*" />
+  </Association>
+</Schema>
