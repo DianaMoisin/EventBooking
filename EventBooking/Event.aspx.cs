@@ -47,7 +47,7 @@ namespace EventBooking
 
         public string GetLocationById(int locationId) 
         {
-            //de tratat
+            //de tratat - laptop
             return "parc";
         }
 
