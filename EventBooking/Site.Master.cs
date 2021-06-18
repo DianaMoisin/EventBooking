@@ -3,6 +3,7 @@ using EventBooking.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -13,7 +14,31 @@ namespace EventBooking
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (LoginServices.UserId != 0)
+            {
+                using (CulturalHouseEntities dbContext = new CulturalHouseEntities())
+                {
+                    Users user = dbContext.Users.FirstOrDefault(x => x.UserId == LoginServices.UserId);
+                    if (user != null)
+                    {
+                        lblUser.Text = user.FirstName + " " + user.LastName;
+                        lblUser.ClientVisible = true;
+                    }
+                }
+            }
 
+            if (LoginServices.ClientId!= 0)
+            {
+                using (CulturalHouseEntities dbContext = new CulturalHouseEntities())
+                {
+                    Clients client = dbContext.Clients.FirstOrDefault(x => x.ClientId == LoginServices.ClientId);
+                    if (client != null)
+                    {
+                        lblUser.Text = client.FirstName + " " + client.LastName;
+                        lblUser.ClientVisible = true;
+                    }
+                }
+            }
         }
 
         protected void btnUserOK_Click(object sender, EventArgs e)
@@ -26,17 +51,20 @@ namespace EventBooking
                 return;
             }
 
-
             if (ASPxEdit.AreEditorsValid(formLayoutUtilizator, "entryGroup"))
             {
                 using (CulturalHouseEntities dbContext = new CulturalHouseEntities())
                 {
                     if (dbContext.Users.Any(x => x.Email == userEmail))
                     {
-                        LoginServices.UserId = dbContext.Users.FirstOrDefault(x => x.Email == userEmail).UserId;
-                        lblUser.Text = userEmail;
-                        lblUser.ClientVisible = true;
-                        popupLogin.ShowOnPageLoad = false;
+                        Users user = dbContext.Users.FirstOrDefault(x => x.Email == userEmail);
+                        if (user != null)
+                        {
+                            LoginServices.UserId = user.UserId;
+                            lblUser.Text = user.FirstName + " " + user.LastName;
+                            lblUser.ClientVisible = true;
+                            popupLogin.ShowOnPageLoad = false;
+                        }
                     }
                     else
                     {
@@ -65,7 +93,7 @@ namespace EventBooking
                     if (client != null)
                     {
                         LoginServices.ClientId = client.ClientId;
-                        lblUser.Text = clientUsername;
+                        lblUser.Text = client.FirstName + " " + client.LastName;
                         lblUser.ClientVisible = true;
                         popupLogin.ShowOnPageLoad = false;
                     }

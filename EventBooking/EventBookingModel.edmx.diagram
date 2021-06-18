@@ -8,7 +8,7 @@
         <EntityTypeShape EntityType="CulturalHouseModel.Clients" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="CulturalHouseModel.Locations" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CulturalHouseModel.Users" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CulturalHouseModel.Events" Width="1.5" PointX="3" PointY="2.875" />
+        <EntityTypeShape EntityType="CulturalHouseModel.Events" Width="1.5" PointX="3" PointY="2.5" />
         <AssociationConnector Association="CulturalHouseModel.FK_Events_Locations" />
         <AssociationConnector Association="CulturalHouseModel.ClientEvents" />
         <AssociationConnector Association="CulturalHouseModel.UserEvents" />

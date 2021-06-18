@@ -1,14 +1,30 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Event.aspx.cs" Inherits="EventBooking.Event" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-     <link rel="stylesheet" href="./css/eventStyle.css">
+    <link rel="stylesheet" href="./css/eventStyle.css">
+    <script>
+<%--        function FocusedCardChanged(s,e){
+            var key = s.GetCardKey(s.GetFocusedCardIndex());
+            console.log(key);
+        }--%>
 
-    <dx:ASPxCardView runat="server" ID="usersEventCardView" ClientInstanceName="usersEventCardView" KeyFieldName="EventId" Width="100%" DataSourceID="dsEvents" 
-                    OnCustomUnboundColumnData="eventCardView_CustomUnboundColumnData">
+    </script>
+    <dx:ASPxCardView runat="server" ID="usersEventCardView" ClientInstanceName="usersEventCardView" KeyFieldName="EventId" Width="100%" DataSourceID="dsEvents"
+        OnCustomUnboundColumnData="eventCardView_CustomUnboundColumnData" OnCustomButtonCallback="usersEventCardView_CustomButtonCallback" OnToolbarItemClick="usersEventCardView_ToolbarItemClick">
+
+        <ClientSideEvents ToolbarItemClick="function(s, e) { console.log('aici'); e.processOnServer = true; }" />
+
         <Columns>
             <dx:CardViewImageColumn FieldName="Image" UnboundType="String">
-                <PropertiesImage ImageWidth="100%" />
+                <PropertiesImage ImageWidth="100%"></PropertiesImage>
             </dx:CardViewImageColumn>
+            <%-- <dx:CardViewBinaryImageColumn FieldName="Image" UnboundType="Object">
+                <PropertiesBinaryImage ImageWidth="100%" BinaryStorageMode="Cache">
+                    <EditingSettings Enabled="true"></EditingSettings>
+                </PropertiesBinaryImage>
+            </dx:CardViewBinaryImageColumn>--%>
+            <dx:CardViewColumn FieldName="EventId" Visible="false" />
             <dx:CardViewColumn FieldName="Name" />
             <dx:CardViewComboBoxColumn FieldName="LocationId">
                 <PropertiesComboBox DataSourceID="dsLocations" TextField="Name" ValueField="LocationId" ValueType="System.Int32"></PropertiesComboBox>
@@ -20,23 +36,87 @@
         </Columns>
         <CardLayoutProperties ColumnCount="1">
             <Items>
-                <dx:CardViewCommandLayoutItem ShowEditButton="true" ShowNewButton="true" ShowDeleteButton="true" HorizontalAlign="Right"></dx:CardViewCommandLayoutItem>
+                <dx:CardViewCommandLayoutItem ShowEditButton="true" ShowDeleteButton="true" HorizontalAlign="Right">
+
+</dx:CardViewCommandLayoutItem>
+                <dx:CardViewCommandLayoutItem ButtonRenderMode="Button">
+                    <CustomButtons>
+                        <dx:CardViewCustomCommandButton ID="editButton" Text="" Image-IconID="actions_edit_16x16devav"></dx:CardViewCustomCommandButton>
+                    </CustomButtons>
+                </dx:CardViewCommandLayoutItem>
                 <dx:CardViewColumnLayoutItem ColumnName="Image" ShowCaption="False"></dx:CardViewColumnLayoutItem>
                 <dx:CardViewColumnLayoutItem ColumnName="Name" ShowCaption="False" CssClass="name"></dx:CardViewColumnLayoutItem>
                 <dx:CardViewColumnLayoutItem ColumnName="LocationId" Caption="Location"></dx:CardViewColumnLayoutItem>
                 <dx:CardViewColumnLayoutItem ColumnName="Data" Caption="Date"></dx:CardViewColumnLayoutItem>
                 <dx:CardViewColumnLayoutItem ColumnName="Price"></dx:CardViewColumnLayoutItem>
                 <dx:CardViewColumnLayoutItem ColumnName="AvailablePlaces"></dx:CardViewColumnLayoutItem>
-                
+                <dx:EditModeCommandLayoutItem HorizontalAlign="Right"></dx:EditModeCommandLayoutItem>
             </Items>
         </CardLayoutProperties>
+        <Toolbars>
+            <dx:CardViewToolbar Position="Top" ItemAlign="Justify">
+                <Items>
+                    <dx:CardViewToolbarItem Name="EditButton" ToolTip="Edit event" Image-IconID="actions_edit_16x16devav">
+                    </dx:CardViewToolbarItem>
+                    <dx:CardViewToolbarItem Name="DeleteButton" ToolTip="Delete event" Image-IconID="edit_delete_16x16office2013">
+                    </dx:CardViewToolbarItem>
+                </Items>
+            </dx:CardViewToolbar>
+        </Toolbars>
         <SettingsPager Mode="ShowAllRecords" SettingsTableLayout-ColumnCount="3" />
         <SettingsEditing Mode="PopupEditForm"></SettingsEditing>
+        <SettingsText PopupEditFormCaption="Edit event" />
+
         <SettingsPopup>
             <EditForm>
                 <SettingsAdaptivity Mode="OnWindowInnerWidth" SwitchAtWindowInnerWidth="768" />
             </EditForm>
         </SettingsPopup>
+        <Templates>
+            <EditForm>
+                <dx:ASPxBinaryImage runat="server" ID="eventPhoto" Value='<%# GetImageByEventId(Convert.ToInt32(Eval("EventId"))) %>' Width="100%">
+                    <EditingSettings Enabled="true"></EditingSettings>
+                </dx:ASPxBinaryImage>
+                <br />
+                <div>
+                    <dx:ASPxTextBox runat="server" ID="eventName" Text='<%# Eval("Name") %>' CssClass="name" Width="100%"></dx:ASPxTextBox>
+                </div>
+                <br />
+                <div class="locationContainer">
+                    <dx:ASPxLabel runat="server" Text="Location:"></dx:ASPxLabel>
+                    <dx:ASPxComboBox runat="server" ID="eventLocation" DataSourceID="dsLocations" TextField="Name" ValueField="LocationId" ValueType="System.Int32" Value='<%# Eval("LocationId") %>' Width="100%"></dx:ASPxComboBox>
+                </div>
+                <br />
+                <div class="dateContainer">
+                    <dx:ASPxLabel runat="server" Text="Date:"></dx:ASPxLabel>
+                    <dx:ASPxDateEdit runat="server" ID="eventDate" Value='<%# Eval("Data") %>' DisplayFormatString="dd.MM.yyyy" EditFormat="DateTime" EditFormatString="dd.MM.yyyy" Width="100%"></dx:ASPxDateEdit>
+                </div>
+                <br />
+                <div class="timeContainer">
+                    <dx:ASPxLabel runat="server" Text="Time:"></dx:ASPxLabel>
+                    <dx:ASPxTimeEdit runat="server" ID="eventTime" Value='<%# Eval("Data") %>' EditFormat="Custom" DisplayFormatString="HH:mm" EditFormatString="HH:mm" Width="100%"></dx:ASPxTimeEdit>
+                </div>
+                <br />
+                <div class="priceContainer">
+                    <dx:ASPxLabel runat="server" Text="Price:"></dx:ASPxLabel>
+                    <dx:ASPxSpinEdit runat="server" ID="eventPrice" Value='<%# Eval("Price") %>' NumberType="Float" AllowMouseWheel="false" MinValue="0" MaxValue="9999999" DecimalPlaces="2" Width="100%"></dx:ASPxSpinEdit>
+                </div>
+
+                <br />
+                <div class="availablePlacesContainer">
+                    <dx:ASPxLabel runat="server" Text="Available places:"></dx:ASPxLabel>
+                    <dx:ASPxSpinEdit runat="server" ID="eventAvailablePlaces" Value='<%# Eval("AvailablePlaces") %>' NumberType="Integer" AllowMouseWheel="false" MinValue="0" MaxValue="9999999" Width="100%"></dx:ASPxSpinEdit>
+                </div>
+
+                <br />
+                <div class="btnContainer">
+                    <dx:ASPxButton runat="server" ID="btnSave" Text="Save" AutoPostBack="false" CssClass="btnSave" OnClick="btnSave_Click">
+                    </dx:ASPxButton>
+                    <dx:ASPxButton runat="server" ID="btnCancel" Text="Cancel" AutoPostBack="false" CssClass="btnBookEvents" OnClick="btnCancel_Click">
+                    </dx:ASPxButton>
+                </div>
+            </EditForm>
+        </Templates>
     </dx:ASPxCardView>
 
 
@@ -63,7 +143,6 @@
                 <dx:CardViewColumnLayoutItem ColumnName="Data" Caption="Date"></dx:CardViewColumnLayoutItem>
                 <dx:CardViewColumnLayoutItem ColumnName="Price"></dx:CardViewColumnLayoutItem>
                 <dx:CardViewColumnLayoutItem ColumnName="AvailablePlaces"></dx:CardViewColumnLayoutItem>
-                
             </Items>
         </CardLayoutProperties>
         <Templates>
@@ -86,26 +165,27 @@
                 <br />
                 <div class="priceContainer">
                     <dx:ASPxLabel runat="server" Text="Price:"></dx:ASPxLabel>
-                    <dx:ASPxLabel runat="server" ID="clientPrice" Text='<%# Eval("Price") %>' CssClass="price" ></dx:ASPxLabel>
+                    <dx:ASPxLabel runat="server" ID="clientPrice" Text='<%# Eval("Price") %>' CssClass="price"></dx:ASPxLabel>
                 </div>
-                
+
                 <br />
                 <div class="availablePlacesContainer">
                     <dx:ASPxLabel runat="server" Text="Available places:"></dx:ASPxLabel>
-                    <dx:ASPxLabel runat="server" ID="ClientAvailablePlaces" Text='<%# Eval("AvailablePlaces") %>' CssClass="availablePlaces" ></dx:ASPxLabel>
+                    <dx:ASPxLabel runat="server" ID="ClientAvailablePlaces" Text='<%# Eval("AvailablePlaces") %>' CssClass="availablePlaces"></dx:ASPxLabel>
                 </div>
-                
+
                 <br />
                 <div class="btnContainer">
-                    <dx:ASPxButton runat="server" ID="btnBookEvents" Text="BOOK" AutoPostBack="false" CssClass="btnBookEvents"></dx:ASPxButton>
+                    <dx:ASPxButton runat="server" ID="btnBookEvents" Text="BOOK" AutoPostBack="false" CssClass="btnBookEvents" OnClick="btnBookEvents_Click">
+                    </dx:ASPxButton>
                 </div>
             </Card>
         </Templates>
         <SettingsPager Mode="ShowAllRecords" SettingsTableLayout-ColumnCount="3" />
     </dx:ASPxCardView>
 
-    
 
-    <ef:EntityDataSource runat="server" ID="dsEvents" ContextTypeName="EventBooking.CulturalHouseEntities" EntitySetName="Events" OnQueryCreated="dsEvents_QueryCreated"></ef:EntityDataSource>
-    <ef:EntityDataSource runat="server" ID="dsLocations" ContextTypeName="EventBooking.CulturalHouseEntities" EntitySetName ="Locations"></ef:EntityDataSource>
+
+    <ef:EntityDataSource runat="server" ID="dsEvents" ContextTypeName="EventBooking.CulturalHouseEntities" EntitySetName="Events" OnQueryCreated="dsEvents_QueryCreated" EnableUpdate="true" EnableInsert="true" EnableDelete="true"></ef:EntityDataSource>
+    <ef:EntityDataSource runat="server" ID="dsLocations" ContextTypeName="EventBooking.CulturalHouseEntities" EntitySetName="Locations"></ef:EntityDataSource>
 </asp:Content>

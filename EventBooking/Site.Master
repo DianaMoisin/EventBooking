@@ -19,9 +19,9 @@
     <form runat="server">
 
         <script type="text/javascript">
-            function ShowLoginWindow() {
-                popupLogin.Show();
-            }
+    function ShowLoginWindow() {
+        popupLogin.Show();
+    }
         </script>
 
         <asp:ScriptManager runat="server">
@@ -67,7 +67,8 @@
             <dx:ASPxLabel runat="server" ID="lblUser" ClientVisible="false"></dx:ASPxLabel>
         </div>
 
-
+           <dx:ASPxHiddenField runat="server" ClientInstanceName="hiddenField" ID="hiddenField">
+                            </dx:ASPxHiddenField>
 
         <dx:ASPxPopupControl runat="server"
             ID="popupLogin"
@@ -120,10 +121,10 @@
                                                 <dx:LayoutItem ShowCaption="False" Paddings-PaddingTop="19" HorizontalAlign="Center">
                                                     <LayoutItemNestedControlCollection>
                                                         <dx:LayoutItemNestedControlContainer>
-                                                            <dx:ASPxButton ID="btnUserOK" runat="server" Text="OK" Width="80px" AutoPostBack="False" Style="float: left; margin-right: 20px" OnClick="btnUserOK_Click">
-                                                              <ClientSideEvents Click="function(s, e) { if(ASPxClientEdit.ValidateGroup('entryGroup')) { e.performOnServer = true; } }" />
+                                                            <dx:ASPxButton ID="btnUserOK" runat="server" Text="OK" Width="80px" AutoPostBack="false" Style="float: left; margin-right: 20px" OnClick="btnUserOK_Click">
+                                                              <ClientSideEvents Click="function(s, e) { if(ASPxClientEdit.ValidateGroup('entryGroup')) { console.log('teeeeeeeeeest'); e.performOnServer = true; } }" />
                                                             </dx:ASPxButton>
-                                                            <dx:ASPxButton ID="btCancel" runat="server" Text="Cancel" Width="80px" AutoPostBack="False" Style="float: left;">
+                                                            <dx:ASPxButton ID="btCancel" runat="server" Text="Cancel" Width="80px" AutoPostBack="false" Style="float: left;">
                                                                 <ClientSideEvents Click="function(s, e) { popupLogin.Hide(); }" />
                                                             </dx:ASPxButton>
                                                         </dx:LayoutItemNestedControlContainer>
