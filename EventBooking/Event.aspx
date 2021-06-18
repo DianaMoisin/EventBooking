@@ -68,10 +68,15 @@
         <SettingsText PopupEditFormCaption="Edit event" />
 
         <SettingsPopup>
-            <EditForm>
+            <EditForm HorizontalAlign="WindowCenter" VerticalAlign="WindowCenter">
                 <SettingsAdaptivity Mode="OnWindowInnerWidth" SwitchAtWindowInnerWidth="768" />
             </EditForm>
         </SettingsPopup>
+        <StylesPopup>
+            <EditForm>
+                <Content Paddings-Padding="50"></Content>
+            </EditForm>
+        </StylesPopup>
         <Templates>
             <EditForm>
                 <dx:ASPxBinaryImage runat="server" ID="eventPhoto" Value='<%# GetImageByEventId(Convert.ToInt32(Eval("EventId"))) %>' Width="100%">
@@ -160,8 +165,13 @@
                 <br />
                 <div class="dateContainer">
                     <dx:ASPxLabel runat="server" Text="Date:"></dx:ASPxLabel>
-                    <dx:ASPxLabel runat="server" ID="clientDate" Text='<%# Eval("Data", "{0:dd/MM/yyyy HH:mm}") %>' CssClass="date"></dx:ASPxLabel>
-                </div>
+                    <dx:ASPxLabel runat="server" ID="clientDate" Text='<%# GetDate((DateTime)Eval("Data")) %>'></dx:ASPxLabel>
+                    </div>
+                <br />
+                 <div class="timeContainer">
+                    <dx:ASPxLabel runat="server" Text="Time:"></dx:ASPxLabel>
+                    <dx:ASPxLabel runat="server" ID="clientTime" Text='<%# GetTime((DateTime)Eval("Data")) %>'></dx:ASPxLabel>
+                    </div>
                 <br />
                 <div class="priceContainer">
                     <dx:ASPxLabel runat="server" Text="Price:"></dx:ASPxLabel>

@@ -2,6 +2,7 @@
 using EventBooking.Services;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -80,6 +81,17 @@ namespace EventBooking
                 }
             }
             return null;
+        }
+
+        public string GetDate(DateTime fullDate)
+        {
+            return fullDate.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
+        }
+
+
+        public string GetTime(DateTime fullDate)
+        {
+            return fullDate.ToString("HH:mm", CultureInfo.InvariantCulture);
         }
 
         protected void btnBookEvents_Click(object sender, EventArgs e)

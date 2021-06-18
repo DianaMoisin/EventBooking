@@ -32,6 +32,10 @@ div > .name {
     padding-left: 10px;
 }
 
+.timeContainer > span {
+    padding-left: 10px;
+}
+
 .priceContainer > span {
     padding-left: 10px;
 }
@@ -50,4 +54,5 @@ div > .name {
 
 .btnSave {
     margin-right: 20px;
+    margin-top: 30px;
 }

@@ -175,15 +175,15 @@
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="images\6.jpeg" />
-    <Content Include="images\event1.jpg" />
-    <Content Include="images\event2.jpg" />
-    <Content Include="images\event3.jpg" />
-    <Content Include="images\event4.jpg" />
-    <Content Include="images\event5.jpg" />
-    <Content Include="images\event6.jpg" />
-    <Content Include="images\event7.jpg" />
-    <Content Include="images\event8.jpg" />
-    <Content Include="images\event9.jpg" />
+    <Content Include="images\event1.png" />
+    <Content Include="images\event2.png" />
+    <Content Include="images\event3.png" />
+    <Content Include="images\event4.png" />
+    <Content Include="images\event5.png" />
+    <Content Include="images\event6.png" />
+    <Content Include="images\event7.png" />
+    <Content Include="images\event8.png" />
+    <Content Include="images\event9.png" />
     <Content Include="images\logo.png" />
     <Content Include="Login.aspx" />
     <Content Include="Register.aspx" />
