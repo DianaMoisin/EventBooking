@@ -1,0 +1,49 @@
+﻿main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+}
+
+section {
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    gap: 20px;
+}
+.promoteEvent{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ourStory h1{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap:25px;
+  color: #800080;
+}
+.story{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+.story h2{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  font-family: 'Kalam', cursive;
+  gap:25px;
+}
+.story p{
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+  justify-content: center;
+  align-items: center;
+}

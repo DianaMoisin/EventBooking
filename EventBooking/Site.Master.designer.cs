@@ -33,6 +33,15 @@ namespace EventBooking
         protected global::DevExpress.Web.ASPxLabel lblUser;
 
         /// <summary>
+        /// hiddenField control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxHiddenField hiddenField;
+
+        /// <summary>
         /// popupLogin control.
         /// </summary>
         /// <remarks>

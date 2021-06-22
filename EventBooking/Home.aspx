@@ -11,6 +11,7 @@
 
     <dx:ASPxCardView runat="server" ClientInstanceName="eventCardView" KeyFieldName="EventId" Width="100%" DataSourceID="dsEvents" OnCustomUnboundColumnData="eventCardView_CustomUnboundColumnData">
         <Columns>
+           
             <dx:CardViewImageColumn FieldName="Image" UnboundType="String">
                 <PropertiesImage ImageWidth="100%" />
             </dx:CardViewImageColumn>

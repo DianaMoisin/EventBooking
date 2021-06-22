@@ -29,7 +29,8 @@
             <dx:CardViewComboBoxColumn FieldName="LocationId">
                 <PropertiesComboBox DataSourceID="dsLocations" TextField="Name" ValueField="LocationId" ValueType="System.Int32"></PropertiesComboBox>
             </dx:CardViewComboBoxColumn>
-            <dx:CardViewDateColumn FieldName="Data" />
+            <dx:CardViewDateColumn FieldName="Date" />
+            <dx:CardViewDateColumn FieldName="Time" />
             <dx:CardViewColumn FieldName="Price" />
             <dx:CardViewColumn FieldName="AvailablePlaces" />
             <dx:CardViewColumn FieldName="Photo" Visible="false" />
@@ -94,13 +95,13 @@
                 <br />
                 <div class="dateContainer">
                     <dx:ASPxLabel runat="server" Text="Date:"></dx:ASPxLabel>
-                    <dx:ASPxDateEdit runat="server" ID="eventDate" Value='<%# Eval("Data") %>' DisplayFormatString="dd.MM.yyyy" EditFormat="DateTime" EditFormatString="dd.MM.yyyy" Width="100%"></dx:ASPxDateEdit>
-                </div>
+                   <dx:ASPxLabel runat="server" ID="eventDate" Text ='<%# GetDate((DateTime)Eval("Data")) %>'></dx:ASPxLabel>
+                    </div>
                 <br />
                 <div class="timeContainer">
                     <dx:ASPxLabel runat="server" Text="Time:"></dx:ASPxLabel>
-                    <dx:ASPxTimeEdit runat="server" ID="eventTime" Value='<%# Eval("Data") %>' EditFormat="Custom" DisplayFormatString="HH:mm" EditFormatString="HH:mm" Width="100%"></dx:ASPxTimeEdit>
-                </div>
+                     <dx:ASPxLabel runat="server" ID="eventTime" Text ='<%# GetTime((DateTime)Eval("Data")) %>'></dx:ASPxLabel>
+                    </div>
                 <br />
                 <div class="priceContainer">
                     <dx:ASPxLabel runat="server" Text="Price:"></dx:ASPxLabel>

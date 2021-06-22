@@ -1,17 +1,25 @@
 ﻿<%@ Page Title="Contact" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Contact.aspx.cs" Inherits="EventBooking.Contact" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h2><%: Title %>.</h2>
-    <h3>Your contact page.</h3>
-    <address>
-        One Microsoft Way<br />
-        Redmond, WA 98052-6399<br />
-        <abbr title="Phone">P:</abbr>
-        425.555.0100
-    </address>
+     
+       <link rel="stylesheet" href="./css/contact.css">
 
-    <address>
-        <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-        <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-    </address>
+
+
+
+
+
+
+
+    <main>
+        <img src="./images/contact.png" alt="Contact img" width="100%">
+
+        <div class="contact-text">
+            <h3>You can find us here!</h3>
+        </div>
+        <div class="maps">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d2733.034399747508!2d23.5898452!3d46.7642184!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sro!2sro!4v1617210057706!5m2!1sro!2sro" width="100%" height="500" style="border: 0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </main>
+
 </asp:Content>
