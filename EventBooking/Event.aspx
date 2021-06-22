@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Event.aspx.cs" Inherits="EventBooking.Event" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Event.aspx.cs" Inherits="EventBooking.Event" EnableViewState="true" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -11,7 +11,7 @@
 
     </script>
     <dx:ASPxCardView runat="server" ID="usersEventCardView" ClientInstanceName="usersEventCardView" KeyFieldName="EventId" Width="100%" DataSourceID="dsEvents"
-        OnCustomUnboundColumnData="eventCardView_CustomUnboundColumnData" OnCustomButtonCallback="usersEventCardView_CustomButtonCallback" OnToolbarItemClick="usersEventCardView_ToolbarItemClick">
+        OnCustomUnboundColumnData="eventCardView_CustomUnboundColumnData" OnCustomButtonCallback="usersEventCardView_CustomButtonCallback" OnToolbarItemClick="usersEventCardView_ToolbarItemClick" OnStartCardEditing="usersEventCardView_StartCardEditing">
 
         <ClientSideEvents ToolbarItemClick="function(s, e) { console.log('aici'); e.processOnServer = true; }" />
 
@@ -19,11 +19,6 @@
             <dx:CardViewImageColumn FieldName="Image" UnboundType="String">
                 <PropertiesImage ImageWidth="100%"></PropertiesImage>
             </dx:CardViewImageColumn>
-            <%-- <dx:CardViewBinaryImageColumn FieldName="Image" UnboundType="Object">
-                <PropertiesBinaryImage ImageWidth="100%" BinaryStorageMode="Cache">
-                    <EditingSettings Enabled="true"></EditingSettings>
-                </PropertiesBinaryImage>
-            </dx:CardViewBinaryImageColumn>--%>
             <dx:CardViewColumn FieldName="EventId" Visible="false" />
             <dx:CardViewColumn FieldName="Name" />
             <dx:CardViewComboBoxColumn FieldName="LocationId">
@@ -40,11 +35,11 @@
             <Items>
                 <dx:CardViewCommandLayoutItem ShowEditButton="true" ShowDeleteButton="true" HorizontalAlign="Right">
                 </dx:CardViewCommandLayoutItem>
-                <dx:CardViewCommandLayoutItem ButtonRenderMode="Button">
+<%--                <dx:CardViewCommandLayoutItem ButtonRenderMode="Button">
                     <CustomButtons>
                         <dx:CardViewCustomCommandButton ID="editButton" Text="" Image-IconID="actions_edit_16x16devav"></dx:CardViewCustomCommandButton>
                     </CustomButtons>
-                </dx:CardViewCommandLayoutItem>
+                </dx:CardViewCommandLayoutItem>--%>
                 <dx:CardViewColumnLayoutItem ColumnName="Image" ShowCaption="False"></dx:CardViewColumnLayoutItem>
                 <dx:CardViewColumnLayoutItem ColumnName="Name" ShowCaption="False" CssClass="name"></dx:CardViewColumnLayoutItem>
                 <dx:CardViewColumnLayoutItem ColumnName="LocationId" Caption="Location"></dx:CardViewColumnLayoutItem>
@@ -58,10 +53,10 @@
         <Toolbars>
             <dx:CardViewToolbar Position="Top" ItemAlign="Justify">
                 <Items>
-                    <dx:CardViewToolbarItem Name="EditButton" ToolTip="Edit event" Image-IconID="actions_edit_16x16devav">
+                    <dx:CardViewToolbarItem Name="NewButton" ToolTip="Add event" Image-IconID="outlookinspired_newproduct_svg_16x16" Text="New event" ItemStyle-CssClass="btnNewEvent">
                     </dx:CardViewToolbarItem>
-                    <dx:CardViewToolbarItem Name="DeleteButton" ToolTip="Delete event" Image-IconID="edit_delete_16x16office2013">
-                    </dx:CardViewToolbarItem>
+                    <%--<dx:CardViewToolbarItem Name="DeleteButton" ToolTip="Delete event" Image-IconID="edit_delete_16x16office2013">
+                    </dx:CardViewToolbarItem>--%>
                 </Items>
             </dx:CardViewToolbar>
         </Toolbars>
@@ -92,42 +87,42 @@
                                 </dx:LayoutItemNestedControlContainer>
                             </LayoutItemNestedControlCollection>
                         </dx:LayoutItem>
-                        <dx:LayoutItem ShowCaption="False">
+                        <dx:LayoutItem ShowCaption="False" FieldName="Name">
                             <LayoutItemNestedControlCollection>
                                 <dx:LayoutItemNestedControlContainer>
                                     <dx:ASPxTextBox runat="server" ID="eventName" Text='<%# Eval("Name") %>' CssClass="name" Width="100%"></dx:ASPxTextBox>
                                 </dx:LayoutItemNestedControlContainer>
                             </LayoutItemNestedControlCollection>
                         </dx:LayoutItem>
-                        <dx:LayoutItem Caption="Location">
+                        <dx:LayoutItem Caption="Location" FieldName="Location">
                             <LayoutItemNestedControlCollection>
                                 <dx:LayoutItemNestedControlContainer>
                                     <dx:ASPxComboBox runat="server" ID="eventLocation" DataSourceID="dsLocations" TextField="Name" ValueField="LocationId" ValueType="System.Int32" Value='<%# Eval("LocationId") %>' Width="100%"></dx:ASPxComboBox>
                                 </dx:LayoutItemNestedControlContainer>
                             </LayoutItemNestedControlCollection>
                         </dx:LayoutItem>
-                        <dx:LayoutItem Caption="Date">
+                        <dx:LayoutItem Caption="Date" FieldName="Date">
                             <LayoutItemNestedControlCollection>
                                 <dx:LayoutItemNestedControlContainer>
-                                    <dx:ASPxDateEdit runat="server" ID="eventDate" Value='<%# GetDate((DateTime)Eval("Data")) %>'></dx:ASPxDateEdit>
+                                    <dx:ASPxDateEdit runat="server" ID="eventDate" Value='<%# Eval("Data") %>' EditFormatString="dd.MM.yyyy" DisplayFormatString="dd.MM.yyyy" Width="100%"></dx:ASPxDateEdit>
                                 </dx:LayoutItemNestedControlContainer>
                             </LayoutItemNestedControlCollection>
                         </dx:LayoutItem>
-                        <dx:LayoutItem Caption="Time">
+                        <dx:LayoutItem Caption="Time" FieldName="Time">
                             <LayoutItemNestedControlCollection>
                                 <dx:LayoutItemNestedControlContainer>
-                                    <dx:ASPxLabel runat="server" ID="eventTime" Text='<%# GetTime((DateTime)Eval("Data")) %>'></dx:ASPxLabel>
+                                    <dx:ASPxTimeEdit runat="server" Id="eventTime" Value='<%# Eval("Data") %>' DisplayFormatString="HH:mm" EditFormatString="HH:mm" AllowMouseWheel="false" Width="100%"></dx:ASPxTimeEdit>
                                 </dx:LayoutItemNestedControlContainer>
                             </LayoutItemNestedControlCollection>
                         </dx:LayoutItem>
-                        <dx:LayoutItem Caption="Price">
+                        <dx:LayoutItem Caption="Price" FieldName="Price">
                             <LayoutItemNestedControlCollection>
                                 <dx:LayoutItemNestedControlContainer>
                                     <dx:ASPxSpinEdit runat="server" ID="eventPrice" Value='<%# Eval("Price") %>' NumberType="Float" AllowMouseWheel="false" MinValue="0" MaxValue="9999999" DecimalPlaces="2" Width="100%"></dx:ASPxSpinEdit>
                                 </dx:LayoutItemNestedControlContainer>
                             </LayoutItemNestedControlCollection>
                         </dx:LayoutItem>
-                         <dx:LayoutItem Caption="Available prices">
+                         <dx:LayoutItem Caption="Available prices" FieldName="AvailablePlaces">
                             <LayoutItemNestedControlCollection>
                                 <dx:LayoutItemNestedControlContainer>
                                     <dx:ASPxSpinEdit runat="server" ID="eventAvailablePlaces" Value='<%# Eval("AvailablePlaces") %>' NumberType="Integer" AllowMouseWheel="false" MinValue="0" MaxValue="9999999" Width="100%"></dx:ASPxSpinEdit>
@@ -172,7 +167,7 @@
 
                 <br />
                 <div class="btnContainer">
-                    <dx:ASPxButton runat="server" ID="btnSave" Text="Save" AutoPostBack="false" CssClass="btnSave" OnClick="btnSave_Click">
+                    <dx:ASPxButton runat="server" ID="btnSave" Text="Save" AutoPostBack="false" CssClass="btnSave" OnClick="btnSave_Click" viewsta>
                     </dx:ASPxButton>
                     <dx:ASPxButton runat="server" ID="btnCancel" Text="Cancel" AutoPostBack="false" CssClass="btnBookEvents" OnClick="btnCancel_Click">
                     </dx:ASPxButton>
@@ -222,7 +217,7 @@
                 <br />
                 <div class="dateContainer">
                     <dx:ASPxLabel runat="server" Text="Date:"></dx:ASPxLabel>
-                    <dx:ASPxLabel runat="server" ID="clientDate" Text='<%# GetDateString((DateTime)Eval("Data")) %>'></dx:ASPxLabel>
+                    <dx:ASPxLabel runat="server" ID="clientDate" Text='<%# GetDate((DateTime)Eval("Data")) %>'></dx:ASPxLabel>
                 </div>
                 <br />
                 <div class="timeContainer">

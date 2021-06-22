@@ -7,13 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EventBooking
-{
-
-
-    public partial class Event
-    {
-
+namespace EventBooking {
+    
+    
+    public partial class Event {
+        
         /// <summary>
         /// usersEventCardView control.
         /// </summary>
@@ -22,16 +20,7 @@ namespace EventBooking
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCardView usersEventCardView;
-
-        /// <summary>
-        /// editButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.CardViewCustomCommandButton editButton;
-
+        
         /// <summary>
         /// clientsEventCardView control.
         /// </summary>
@@ -40,7 +29,7 @@ namespace EventBooking
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCardView clientsEventCardView;
-
+        
         /// <summary>
         /// dsEvents control.
         /// </summary>
@@ -49,7 +38,7 @@ namespace EventBooking
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Microsoft.AspNet.EntityDataSource.EntityDataSource dsEvents;
-
+        
         /// <summary>
         /// dsLocations control.
         /// </summary>

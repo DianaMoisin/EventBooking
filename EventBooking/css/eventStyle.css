@@ -56,3 +56,8 @@ div > .name {
     margin-right: 20px;
     margin-top: 30px;
 }
+
+span.dx-vam, span.dx-vat, span.dx-vab, a.dx-vam, a.dx-vat, a.dx-vab {
+    color: #800080 !important;
+    font-weight: bold;
+}

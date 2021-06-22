@@ -16,6 +16,8 @@ namespace EventBooking
     {
         public string LocalPath { get; set; } = "https://localhost:44371/";
 
+        public int EventId { get; set; }
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -41,6 +43,7 @@ namespace EventBooking
         {
             e.Query = ((IQueryable<Events>)e.Query).Where(x => x.Approved).OrderByDescending(x => x.Data);
         }
+
         protected void eventCardView_CustomUnboundColumnData(object sender, DevExpress.Web.ASPxCardViewColumnDataEventArgs e)
         {
             if (e.Column.FieldName == "Image")
@@ -93,23 +96,10 @@ namespace EventBooking
             return null;
         }
 
-        public string GetDateString(DateTime fullDate)
+        public string GetDate(DateTime fullDate)
         {
             return fullDate.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
         }
-
-        public DateTime GetDate(DateTime fullDate)
-        {
-            string pattern = "dd.MM.yyyy";
-            DateTime parsedDate;
-            if (DateTime.TryParseExact(fullDate.ToString(), pattern, CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate))
-            {
-                return parsedDate;
-            }
-            
-            return parsedDate;
-        }
-
 
         public string GetTime(DateTime fullDate)
         {
@@ -162,12 +152,48 @@ namespace EventBooking
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
+            int eventId = Convert.ToInt32(Session["eventId"]);
+
+            using (CulturalHouseEntities dbContext = new CulturalHouseEntities())
+            {
+                Events currentEvent = dbContext.Events.FirstOrDefault(x => x.EventId == eventId);
+                if (currentEvent != null)
+                {
+                    ASPxFormLayout formLayout = usersEventCardView.FindEditFormTemplateControl("editFormUser") as ASPxFormLayout;
+                    ASPxTextBox nameTextBox = formLayout.FindNestedControlByFieldName("Name") as ASPxTextBox;
+                    ASPxComboBox locationComboBox = formLayout.FindNestedControlByFieldName("Location") as ASPxComboBox;
+                    ASPxDateEdit dateEdit = formLayout.FindNestedControlByFieldName("Date") as ASPxDateEdit;
+                    ASPxTimeEdit timeEdit = formLayout.FindNestedControlByFieldName("Time") as ASPxTimeEdit;
+                    ASPxSpinEdit priceEdit = formLayout.FindNestedControlByFieldName("Price") as ASPxSpinEdit;
+                    ASPxSpinEdit placesEdit = formLayout.FindNestedControlByFieldName("AvailablePlaces") as ASPxSpinEdit;
+
+
+                    currentEvent.Name = nameTextBox.Text;
+                    currentEvent.LocationId = Convert.ToInt32(locationComboBox.Value);
+                    DateTime date = Convert.ToDateTime(dateEdit.Value);
+                    DateTime time = (DateTime)timeEdit.Value;
+                    currentEvent.Data = new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second);
+                    currentEvent.Price = Convert.ToDecimal(priceEdit.Value);
+                    currentEvent.AvailablePlaces = Convert.ToInt32(placesEdit.Value);
+
+                    dbContext.Entry(currentEvent).State = System.Data.Entity.EntityState.Modified;
+                    dbContext.SaveChanges();
+
+                    usersEventCardView.CancelEdit();
+                    usersEventCardView.DataBind();
+                }
+            }
 
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
             usersEventCardView.CancelEdit();
+        }
+
+        protected void usersEventCardView_StartCardEditing(object sender, ASPxStartCardEditingEventArgs e)
+        {
+            Session["eventId"] = Convert.ToInt32(e.EditingKeyValue);
         }
     }
 }
