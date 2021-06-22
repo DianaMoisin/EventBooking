@@ -53,10 +53,11 @@
         <Toolbars>
             <dx:CardViewToolbar Position="Top" ItemAlign="Justify">
                 <Items>
-                    <dx:CardViewToolbarItem Name="NewButton" ToolTip="Add event" Image-IconID="outlookinspired_newproduct_svg_16x16" Text="New event" ItemStyle-CssClass="btnNewEvent">
+                    <dx:CardViewToolbarItem Name="NewButton" ToolTip="Add event">
+                        <Template>
+                            <dx:ASPxButton runat="server" ID="newButton" Text="New event" AutoPostBack="false" OnClick="newButton_Click"></dx:ASPxButton>
+                        </Template>
                     </dx:CardViewToolbarItem>
-                    <%--<dx:CardViewToolbarItem Name="DeleteButton" ToolTip="Delete event" Image-IconID="edit_delete_16x16office2013">
-                    </dx:CardViewToolbarItem>--%>
                 </Items>
             </dx:CardViewToolbar>
         </Toolbars>
@@ -175,6 +176,8 @@
             </EditForm>
         </Templates>
     </dx:ASPxCardView>
+
+    <dx:ASPxPopupControl runat="server" ID="newEventPopup"></dx:ASPxPopupControl>
 
 
 

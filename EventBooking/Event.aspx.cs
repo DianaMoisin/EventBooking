@@ -195,5 +195,10 @@ namespace EventBooking
         {
             Session["eventId"] = Convert.ToInt32(e.EditingKeyValue);
         }
+
+        protected void newButton_Click(object sender, EventArgs e)
+        {
+            newEventPopup.ShowOnPageLoad = true;
+        }
     }
 }
