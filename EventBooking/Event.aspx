@@ -29,8 +29,9 @@
             <dx:CardViewComboBoxColumn FieldName="LocationId">
                 <PropertiesComboBox DataSourceID="dsLocations" TextField="Name" ValueField="LocationId" ValueType="System.Int32"></PropertiesComboBox>
             </dx:CardViewComboBoxColumn>
-            <dx:CardViewDateColumn FieldName="Date" />
-            <dx:CardViewDateColumn FieldName="Time" />
+            <dx:CardViewDateColumn FieldName="Data" Visible="false" />
+            <dx:CardViewDateColumn FieldName="Date" UnboundType="String" />
+            <dx:CardViewDateColumn FieldName="Time" UnboundType="String" />
             <dx:CardViewColumn FieldName="Price" />
             <dx:CardViewColumn FieldName="AvailablePlaces" />
             <dx:CardViewColumn FieldName="Photo" Visible="false" />
@@ -38,8 +39,7 @@
         <CardLayoutProperties ColumnCount="1">
             <Items>
                 <dx:CardViewCommandLayoutItem ShowEditButton="true" ShowDeleteButton="true" HorizontalAlign="Right">
-
-</dx:CardViewCommandLayoutItem>
+                </dx:CardViewCommandLayoutItem>
                 <dx:CardViewCommandLayoutItem ButtonRenderMode="Button">
                     <CustomButtons>
                         <dx:CardViewCustomCommandButton ID="editButton" Text="" Image-IconID="actions_edit_16x16devav"></dx:CardViewCustomCommandButton>
@@ -48,7 +48,8 @@
                 <dx:CardViewColumnLayoutItem ColumnName="Image" ShowCaption="False"></dx:CardViewColumnLayoutItem>
                 <dx:CardViewColumnLayoutItem ColumnName="Name" ShowCaption="False" CssClass="name"></dx:CardViewColumnLayoutItem>
                 <dx:CardViewColumnLayoutItem ColumnName="LocationId" Caption="Location"></dx:CardViewColumnLayoutItem>
-                <dx:CardViewColumnLayoutItem ColumnName="Data" Caption="Date"></dx:CardViewColumnLayoutItem>
+                <dx:CardViewColumnLayoutItem ColumnName="Date" Caption="Date"></dx:CardViewColumnLayoutItem>
+                <dx:CardViewColumnLayoutItem ColumnName="Time" Caption="Time"></dx:CardViewColumnLayoutItem>
                 <dx:CardViewColumnLayoutItem ColumnName="Price"></dx:CardViewColumnLayoutItem>
                 <dx:CardViewColumnLayoutItem ColumnName="AvailablePlaces"></dx:CardViewColumnLayoutItem>
                 <dx:EditModeCommandLayoutItem HorizontalAlign="Right"></dx:EditModeCommandLayoutItem>
@@ -80,39 +81,94 @@
         </StylesPopup>
         <Templates>
             <EditForm>
-                <dx:ASPxBinaryImage runat="server" ID="eventPhoto" Value='<%# GetImageByEventId(Convert.ToInt32(Eval("EventId"))) %>' Width="100%">
-                    <EditingSettings Enabled="true"></EditingSettings>
-                </dx:ASPxBinaryImage>
-                <br />
+                <dx:ASPxFormLayout runat="server" ID="editFormUser" Width="100%">
+                    <Items>
+                        <dx:LayoutItem ShowCaption="false">
+                            <LayoutItemNestedControlCollection>
+                                <dx:LayoutItemNestedControlContainer>
+                                    <dx:ASPxBinaryImage runat="server" ID="eventPhoto" Value='<%# GetImageByEventId(Convert.ToInt32(Eval("EventId"))) %>' Width="100%">
+                                        <EditingSettings Enabled="true"></EditingSettings>
+                                    </dx:ASPxBinaryImage>
+                                </dx:LayoutItemNestedControlContainer>
+                            </LayoutItemNestedControlCollection>
+                        </dx:LayoutItem>
+                        <dx:LayoutItem ShowCaption="False">
+                            <LayoutItemNestedControlCollection>
+                                <dx:LayoutItemNestedControlContainer>
+                                    <dx:ASPxTextBox runat="server" ID="eventName" Text='<%# Eval("Name") %>' CssClass="name" Width="100%"></dx:ASPxTextBox>
+                                </dx:LayoutItemNestedControlContainer>
+                            </LayoutItemNestedControlCollection>
+                        </dx:LayoutItem>
+                        <dx:LayoutItem Caption="Location">
+                            <LayoutItemNestedControlCollection>
+                                <dx:LayoutItemNestedControlContainer>
+                                    <dx:ASPxComboBox runat="server" ID="eventLocation" DataSourceID="dsLocations" TextField="Name" ValueField="LocationId" ValueType="System.Int32" Value='<%# Eval("LocationId") %>' Width="100%"></dx:ASPxComboBox>
+                                </dx:LayoutItemNestedControlContainer>
+                            </LayoutItemNestedControlCollection>
+                        </dx:LayoutItem>
+                        <dx:LayoutItem Caption="Date">
+                            <LayoutItemNestedControlCollection>
+                                <dx:LayoutItemNestedControlContainer>
+                                    <dx:ASPxDateEdit runat="server" ID="eventDate" Value='<%# GetDate((DateTime)Eval("Data")) %>'></dx:ASPxDateEdit>
+                                </dx:LayoutItemNestedControlContainer>
+                            </LayoutItemNestedControlCollection>
+                        </dx:LayoutItem>
+                        <dx:LayoutItem Caption="Time">
+                            <LayoutItemNestedControlCollection>
+                                <dx:LayoutItemNestedControlContainer>
+                                    <dx:ASPxLabel runat="server" ID="eventTime" Text='<%# GetTime((DateTime)Eval("Data")) %>'></dx:ASPxLabel>
+                                </dx:LayoutItemNestedControlContainer>
+                            </LayoutItemNestedControlCollection>
+                        </dx:LayoutItem>
+                        <dx:LayoutItem Caption="Price">
+                            <LayoutItemNestedControlCollection>
+                                <dx:LayoutItemNestedControlContainer>
+                                    <dx:ASPxSpinEdit runat="server" ID="eventPrice" Value='<%# Eval("Price") %>' NumberType="Float" AllowMouseWheel="false" MinValue="0" MaxValue="9999999" DecimalPlaces="2" Width="100%"></dx:ASPxSpinEdit>
+                                </dx:LayoutItemNestedControlContainer>
+                            </LayoutItemNestedControlCollection>
+                        </dx:LayoutItem>
+                         <dx:LayoutItem Caption="Available prices">
+                            <LayoutItemNestedControlCollection>
+                                <dx:LayoutItemNestedControlContainer>
+                                    <dx:ASPxSpinEdit runat="server" ID="eventAvailablePlaces" Value='<%# Eval("AvailablePlaces") %>' NumberType="Integer" AllowMouseWheel="false" MinValue="0" MaxValue="9999999" Width="100%"></dx:ASPxSpinEdit>
+                                </dx:LayoutItemNestedControlContainer>
+                            </LayoutItemNestedControlCollection>
+                        </dx:LayoutItem>
+                    </Items>
+                </dx:ASPxFormLayout>
+
+
+
+
+             <%--   <br />
                 <div>
-                    <dx:ASPxTextBox runat="server" ID="eventName" Text='<%# Eval("Name") %>' CssClass="name" Width="100%"></dx:ASPxTextBox>
                 </div>
                 <br />
                 <div class="locationContainer">
                     <dx:ASPxLabel runat="server" Text="Location:"></dx:ASPxLabel>
-                    <dx:ASPxComboBox runat="server" ID="eventLocation" DataSourceID="dsLocations" TextField="Name" ValueField="LocationId" ValueType="System.Int32" Value='<%# Eval("LocationId") %>' Width="100%"></dx:ASPxComboBox>
+
                 </div>
                 <br />
                 <div class="dateContainer">
                     <dx:ASPxLabel runat="server" Text="Date:"></dx:ASPxLabel>
-                   <dx:ASPxLabel runat="server" ID="eventDate" Text ='<%# GetDate((DateTime)Eval("Data")) %>'></dx:ASPxLabel>
-                    </div>
+
+                </div>
                 <br />
                 <div class="timeContainer">
                     <dx:ASPxLabel runat="server" Text="Time:"></dx:ASPxLabel>
-                     <dx:ASPxLabel runat="server" ID="eventTime" Text ='<%# GetTime((DateTime)Eval("Data")) %>'></dx:ASPxLabel>
-                    </div>
+
+                </div>
                 <br />
                 <div class="priceContainer">
                     <dx:ASPxLabel runat="server" Text="Price:"></dx:ASPxLabel>
-                    <dx:ASPxSpinEdit runat="server" ID="eventPrice" Value='<%# Eval("Price") %>' NumberType="Float" AllowMouseWheel="false" MinValue="0" MaxValue="9999999" DecimalPlaces="2" Width="100%"></dx:ASPxSpinEdit>
+                    
                 </div>
 
                 <br />
                 <div class="availablePlacesContainer">
                     <dx:ASPxLabel runat="server" Text="Available places:"></dx:ASPxLabel>
-                    <dx:ASPxSpinEdit runat="server" ID="eventAvailablePlaces" Value='<%# Eval("AvailablePlaces") %>' NumberType="Integer" AllowMouseWheel="false" MinValue="0" MaxValue="9999999" Width="100%"></dx:ASPxSpinEdit>
-                </div>
+                    
+                </div>--%>
 
                 <br />
                 <div class="btnContainer">
@@ -166,13 +222,13 @@
                 <br />
                 <div class="dateContainer">
                     <dx:ASPxLabel runat="server" Text="Date:"></dx:ASPxLabel>
-                    <dx:ASPxLabel runat="server" ID="clientDate" Text='<%# GetDate((DateTime)Eval("Data")) %>'></dx:ASPxLabel>
-                    </div>
+                    <dx:ASPxLabel runat="server" ID="clientDate" Text='<%# GetDateString((DateTime)Eval("Data")) %>'></dx:ASPxLabel>
+                </div>
                 <br />
-                 <div class="timeContainer">
+                <div class="timeContainer">
                     <dx:ASPxLabel runat="server" Text="Time:"></dx:ASPxLabel>
                     <dx:ASPxLabel runat="server" ID="clientTime" Text='<%# GetTime((DateTime)Eval("Data")) %>'></dx:ASPxLabel>
-                    </div>
+                </div>
                 <br />
                 <div class="priceContainer">
                     <dx:ASPxLabel runat="server" Text="Price:"></dx:ASPxLabel>

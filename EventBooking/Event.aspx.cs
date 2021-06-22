@@ -59,6 +59,16 @@ namespace EventBooking
             {
                 e.Value = "BOOK";
             }
+
+            if (e.Column.FieldName == "Date")
+            {
+                e.Value = ((DateTime)e.GetListSourceFieldValue("Data")).ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
+            }
+
+            if (e.Column.FieldName == "Time")
+            {
+                e.Value = ((DateTime)e.GetListSourceFieldValue("Data")).ToString("HH:mm", CultureInfo.InvariantCulture);
+            }
         }
 
         public string GetLocationById(int locationId)
@@ -83,9 +93,21 @@ namespace EventBooking
             return null;
         }
 
-        public string GetDate(DateTime fullDate)
+        public string GetDateString(DateTime fullDate)
         {
             return fullDate.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
+        }
+
+        public DateTime GetDate(DateTime fullDate)
+        {
+            string pattern = "dd.MM.yyyy";
+            DateTime parsedDate;
+            if (DateTime.TryParseExact(fullDate.ToString(), pattern, CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate))
+            {
+                return parsedDate;
+            }
+            
+            return parsedDate;
         }
 
 
