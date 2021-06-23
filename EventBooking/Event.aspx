@@ -9,9 +9,17 @@
             console.log(key);
         }--%>
 
+        function onDateValidation(s, e) {
+            var eventDate = s.date;
+            console.log("validareeeeee");
+
+            if (eventDate == null || eventDate == false)
+                return;
+        }
+
     </script>
     <dx:ASPxCardView runat="server" ID="usersEventCardView" ClientInstanceName="usersEventCardView" KeyFieldName="EventId" Width="100%" DataSourceID="dsEvents"
-        OnCustomUnboundColumnData="eventCardView_CustomUnboundColumnData" OnCustomButtonCallback="usersEventCardView_CustomButtonCallback" OnToolbarItemClick="usersEventCardView_ToolbarItemClick" OnStartCardEditing="usersEventCardView_StartCardEditing">
+        OnCustomUnboundColumnData="eventCardView_CustomUnboundColumnData" OnStartCardEditing="usersEventCardView_StartCardEditing" OnCardDeleting="usersEventCardView_CardDeleting">
 
         <ClientSideEvents ToolbarItemClick="function(s, e) { console.log('aici'); e.processOnServer = true; }" />
 
@@ -35,7 +43,7 @@
             <Items>
                 <dx:CardViewCommandLayoutItem ShowEditButton="true" ShowDeleteButton="true" HorizontalAlign="Right">
                 </dx:CardViewCommandLayoutItem>
-<%--                <dx:CardViewCommandLayoutItem ButtonRenderMode="Button">
+                <%--                <dx:CardViewCommandLayoutItem ButtonRenderMode="Button">
                     <CustomButtons>
                         <dx:CardViewCustomCommandButton ID="editButton" Text="" Image-IconID="actions_edit_16x16devav"></dx:CardViewCustomCommandButton>
                     </CustomButtons>
@@ -79,7 +87,7 @@
             <EditForm>
                 <dx:ASPxFormLayout runat="server" ID="editFormUser" Width="100%">
                     <Items>
-                        <dx:LayoutItem ShowCaption="false">
+                        <dx:LayoutItem ShowCaption="false" FieldName="Photo">
                             <LayoutItemNestedControlCollection>
                                 <dx:LayoutItemNestedControlContainer>
                                     <dx:ASPxBinaryImage runat="server" ID="eventPhoto" Value='<%# GetImageByEventId(Convert.ToInt32(Eval("EventId"))) %>' Width="100%">
@@ -112,7 +120,7 @@
                         <dx:LayoutItem Caption="Time" FieldName="Time">
                             <LayoutItemNestedControlCollection>
                                 <dx:LayoutItemNestedControlContainer>
-                                    <dx:ASPxTimeEdit runat="server" Id="eventTime" Value='<%# Eval("Data") %>' DisplayFormatString="HH:mm" EditFormatString="HH:mm" AllowMouseWheel="false" Width="100%"></dx:ASPxTimeEdit>
+                                    <dx:ASPxTimeEdit runat="server" ID="eventTime" Value='<%# Eval("Data") %>' DisplayFormatString="HH:mm" EditFormatString="HH:mm" AllowMouseWheel="false" Width="100%"></dx:ASPxTimeEdit>
                                 </dx:LayoutItemNestedControlContainer>
                             </LayoutItemNestedControlCollection>
                         </dx:LayoutItem>
@@ -123,7 +131,7 @@
                                 </dx:LayoutItemNestedControlContainer>
                             </LayoutItemNestedControlCollection>
                         </dx:LayoutItem>
-                         <dx:LayoutItem Caption="Available prices" FieldName="AvailablePlaces">
+                        <dx:LayoutItem Caption="Available prices" FieldName="AvailablePlaces">
                             <LayoutItemNestedControlCollection>
                                 <dx:LayoutItemNestedControlContainer>
                                     <dx:ASPxSpinEdit runat="server" ID="eventAvailablePlaces" Value='<%# Eval("AvailablePlaces") %>' NumberType="Integer" AllowMouseWheel="false" MinValue="0" MaxValue="9999999" Width="100%"></dx:ASPxSpinEdit>
@@ -133,42 +141,9 @@
                     </Items>
                 </dx:ASPxFormLayout>
 
-
-
-
-             <%--   <br />
-                <div>
-                </div>
-                <br />
-                <div class="locationContainer">
-                    <dx:ASPxLabel runat="server" Text="Location:"></dx:ASPxLabel>
-
-                </div>
-                <br />
-                <div class="dateContainer">
-                    <dx:ASPxLabel runat="server" Text="Date:"></dx:ASPxLabel>
-
-                </div>
-                <br />
-                <div class="timeContainer">
-                    <dx:ASPxLabel runat="server" Text="Time:"></dx:ASPxLabel>
-
-                </div>
-                <br />
-                <div class="priceContainer">
-                    <dx:ASPxLabel runat="server" Text="Price:"></dx:ASPxLabel>
-                    
-                </div>
-
-                <br />
-                <div class="availablePlacesContainer">
-                    <dx:ASPxLabel runat="server" Text="Available places:"></dx:ASPxLabel>
-                    
-                </div>--%>
-
                 <br />
                 <div class="btnContainer">
-                    <dx:ASPxButton runat="server" ID="btnSave" Text="Save" AutoPostBack="false" CssClass="btnSave" OnClick="btnSave_Click" viewsta>
+                    <dx:ASPxButton runat="server" ID="btnSave" Text="Save" AutoPostBack="false" CssClass="btnSave" OnClick="btnSave_Click">
                     </dx:ASPxButton>
                     <dx:ASPxButton runat="server" ID="btnCancel" Text="Cancel" AutoPostBack="false" CssClass="btnBookEvents" OnClick="btnCancel_Click">
                     </dx:ASPxButton>
@@ -177,7 +152,129 @@
         </Templates>
     </dx:ASPxCardView>
 
-    <dx:ASPxPopupControl runat="server" ID="newEventPopup"></dx:ASPxPopupControl>
+    <dx:ASPxPopupControl runat="server"
+        ID="newEventPopup"
+        PopupHorizontalAlign="WindowCenter"
+        PopupVerticalAlign="WindowCenter"
+        Width="600px"
+        HeaderText="New event"
+        ContentStyle-Paddings-Padding="30px">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <dx:ASPxFormLayout runat="server" ID="newEventForm" Width="100%">
+                    <Items>
+                        <dx:LayoutItem ShowCaption="false">
+                            <LayoutItemNestedControlCollection>
+                                <dx:LayoutItemNestedControlContainer>
+                                    <dx:ASPxBinaryImage runat="server" ID="newEventPhoto" Width="100%">
+                                        <EditingSettings Enabled="true"></EditingSettings>
+                                    </dx:ASPxBinaryImage>
+                                </dx:LayoutItemNestedControlContainer>
+                            </LayoutItemNestedControlCollection>
+                        </dx:LayoutItem>
+                        <dx:LayoutItem ShowCaption="False" FieldName="Name" RequiredMarkDisplayMode="Hidden">
+                            <LayoutItemNestedControlCollection>
+                                <dx:LayoutItemNestedControlContainer>
+                                    <dx:ASPxTextBox runat="server" ID="newEventName" CssClass="name" Width="100%" NullText="Add the event name">
+                                        <ValidationSettings
+                                            ValidationGroup="newForm"
+                                            ErrorDisplayMode="ImageWithText"
+                                            ErrorTextPosition="Bottom">
+                                            <RequiredField ErrorText="Event name required"
+                                                IsRequired="True" />
+                                        </ValidationSettings>
+                                    </dx:ASPxTextBox>
+                                </dx:LayoutItemNestedControlContainer>
+                            </LayoutItemNestedControlCollection>
+                        </dx:LayoutItem>
+                        <dx:LayoutItem Caption="Location" FieldName="Location">
+                            <LayoutItemNestedControlCollection>
+                                <dx:LayoutItemNestedControlContainer>
+                                    <dx:ASPxComboBox runat="server"
+                                        ID="newEventLocation"
+                                        DataSourceID="dsLocations"
+                                        TextField="Name"
+                                        ValueField="LocationId"
+                                        ValueType="System.Int32"
+                                        Width="100%">
+                                        <ValidationSettings
+                                            ValidationGroup="newForm"
+                                            ErrorDisplayMode="ImageWithText"
+                                            ErrorTextPosition="Bottom">
+                                            <RequiredField ErrorText="Event location required"
+                                                IsRequired="True" />
+                                        </ValidationSettings>
+                                    </dx:ASPxComboBox>
+                                </dx:LayoutItemNestedControlContainer>
+                            </LayoutItemNestedControlCollection>
+                        </dx:LayoutItem>
+                        <dx:LayoutItem Caption="Date" FieldName="Date">
+                            <LayoutItemNestedControlCollection>
+                                <dx:LayoutItemNestedControlContainer>
+                                    <dx:ASPxDateEdit runat="server"
+                                        ID="newEventDate"
+                                        EditFormatString="dd.MM.yyyy"
+                                        DisplayFormatString="dd.MM.yyyy"
+                                        Width="100%">
+                                        <ValidationSettings
+                                            ValidationGroup="newForm"
+                                            ErrorDisplayMode="ImageWithText"
+                                            ErrorTextPosition="Bottom">
+                                            <RequiredField ErrorText="Event date required"
+                                                IsRequired="True" />
+                                        </ValidationSettings>
+                                        <%--            <ClientSideEvents Validation="onDateValidation" />--%>
+                                    </dx:ASPxDateEdit>
+                                </dx:LayoutItemNestedControlContainer>
+                            </LayoutItemNestedControlCollection>
+                        </dx:LayoutItem>
+                        <dx:LayoutItem Caption="Time" FieldName="Time">
+                            <LayoutItemNestedControlCollection>
+                                <dx:LayoutItemNestedControlContainer>
+                                    <dx:ASPxTimeEdit runat="server"
+                                        ID="newEventTime"
+                                        DisplayFormatString="HH:mm"
+                                        EditFormatString="HH:mm"
+                                        AllowMouseWheel="false"
+                                        Width="100%">
+                                        <ValidationSettings
+                                            ValidationGroup="newForm"
+                                            ErrorDisplayMode="ImageWithText"
+                                            ErrorTextPosition="Bottom">
+                                            <RequiredField ErrorText="Event time required"
+                                                IsRequired="True" />
+                                        </ValidationSettings>
+                                    </dx:ASPxTimeEdit>
+                                </dx:LayoutItemNestedControlContainer>
+                            </LayoutItemNestedControlCollection>
+                        </dx:LayoutItem>
+                        <dx:LayoutItem Caption="Price" FieldName="Price">
+                            <LayoutItemNestedControlCollection>
+                                <dx:LayoutItemNestedControlContainer>
+                                    <dx:ASPxSpinEdit runat="server" ID="newEventPrice" NumberType="Float" AllowMouseWheel="false" MinValue="0" MaxValue="9999999" DecimalPlaces="2" Width="100%"></dx:ASPxSpinEdit>
+                                </dx:LayoutItemNestedControlContainer>
+                            </LayoutItemNestedControlCollection>
+                        </dx:LayoutItem>
+                        <dx:LayoutItem Caption="Available prices" FieldName="AvailablePlaces">
+                            <LayoutItemNestedControlCollection>
+                                <dx:LayoutItemNestedControlContainer>
+                                    <dx:ASPxSpinEdit runat="server" ID="newEventAvailablePlaces" NumberType="Integer" AllowMouseWheel="false" MinValue="0" MaxValue="9999999" Width="100%"></dx:ASPxSpinEdit>
+                                </dx:LayoutItemNestedControlContainer>
+                            </LayoutItemNestedControlCollection>
+                        </dx:LayoutItem>
+                    </Items>
+                </dx:ASPxFormLayout>
+                <br />
+                <div class="btnContainer">
+                    <dx:ASPxButton runat="server" ID="btnSaveNew" Text="Save" AutoPostBack="false" CssClass="btnSave" OnClick="btnSaveNew_Click">
+                        <ClientSideEvents Click="function(s, e) { if(!ASPxClientEdit.ValidateGroup('newForm')) { console.log('validareee'); return; } }" />
+                    </dx:ASPxButton>
+                    <dx:ASPxButton runat="server" ID="btnCancelNew" Text="Cancel" AutoPostBack="false" CssClass="btnBookEvents" OnClick="btnCancelNew_Click">
+                    </dx:ASPxButton>
+                </div>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
 
 
 
@@ -249,6 +346,23 @@
         <SettingsPager Mode="ShowAllRecords" SettingsTableLayout-ColumnCount="3" />
     </dx:ASPxCardView>
 
+
+    <dx:ASPxPopupControl runat="server"
+        ID="popupMessage"
+        PopupHorizontalAlign="WindowCenter"
+        PopupVerticalAlign="WindowCenter"
+        Width="600px"
+        HeaderText="Warning"
+        ContentStyle-Paddings-Padding="30px">
+        <ContentCollection>
+            <dx:PopupControlContentControl>
+                <dx:ASPxLabel runat="server" ID="lblMessage"></dx:ASPxLabel>
+                <br />
+                <dx:ASPxButton runat="server" ID="btnOK" Text="OK" AutoPostBack="false" CssClass="btnBookEvents" OnClick="btnOK_Click">
+                </dx:ASPxButton>
+            </dx:PopupControlContentControl>
+        </ContentCollection>
+    </dx:ASPxPopupControl>
 
 
     <ef:EntityDataSource runat="server" ID="dsEvents" ContextTypeName="EventBooking.CulturalHouseEntities" EntitySetName="Events" OnQueryCreated="dsEvents_QueryCreated" EnableUpdate="true" EnableInsert="true" EnableDelete="true"></ef:EntityDataSource>

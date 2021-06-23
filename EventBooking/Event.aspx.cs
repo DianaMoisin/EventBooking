@@ -2,6 +2,7 @@
 using EventBooking.Services;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -140,16 +141,6 @@ namespace EventBooking
             }
         }
 
-        protected void usersEventCardView_ToolbarItemClick(object source, ASPxCardViewToolbarItemClickEventArgs e)
-        {
-            var x = 0;
-        }
-
-        protected void usersEventCardView_CustomButtonCallback(object sender, ASPxCardViewCustomButtonCallbackEventArgs e)
-        {
-            var x = 0;
-        }
-
         protected void btnSave_Click(object sender, EventArgs e)
         {
             int eventId = Convert.ToInt32(Session["eventId"]);
@@ -160,6 +151,7 @@ namespace EventBooking
                 if (currentEvent != null)
                 {
                     ASPxFormLayout formLayout = usersEventCardView.FindEditFormTemplateControl("editFormUser") as ASPxFormLayout;
+                    ASPxBinaryImage imageControl = formLayout.FindNestedControlByFieldName("Photo") as ASPxBinaryImage;
                     ASPxTextBox nameTextBox = formLayout.FindNestedControlByFieldName("Name") as ASPxTextBox;
                     ASPxComboBox locationComboBox = formLayout.FindNestedControlByFieldName("Location") as ASPxComboBox;
                     ASPxDateEdit dateEdit = formLayout.FindNestedControlByFieldName("Date") as ASPxDateEdit;
@@ -167,6 +159,13 @@ namespace EventBooking
                     ASPxSpinEdit priceEdit = formLayout.FindNestedControlByFieldName("Price") as ASPxSpinEdit;
                     ASPxSpinEdit placesEdit = formLayout.FindNestedControlByFieldName("AvailablePlaces") as ASPxSpinEdit;
 
+                    string fileName = imageControl.GetUploadedFileName();
+                    if (!String.IsNullOrEmpty(fileName))
+                    {
+                        string saveImagePath = Server.MapPath("~/images/") + fileName;
+                        File.WriteAllBytes(saveImagePath, imageControl.ContentBytes);
+                        currentEvent.Photo = "/images/" + fileName;
+                    }
 
                     currentEvent.Name = nameTextBox.Text;
                     currentEvent.LocationId = Convert.ToInt32(locationComboBox.Value);
@@ -199,6 +198,72 @@ namespace EventBooking
         protected void newButton_Click(object sender, EventArgs e)
         {
             newEventPopup.ShowOnPageLoad = true;
+        }
+
+        protected void btnCancelNew_Click(object sender, EventArgs e)
+        {
+            newEventPopup.ShowOnPageLoad = false;
+        }
+
+        protected void btnSaveNew_Click(object sender, EventArgs e)
+        {
+            if (!newEventLocation.IsValid || !newEventName.IsValid || !newEventDate.IsValid || !newEventTime.IsValid)
+                return;
+
+            using (CulturalHouseEntities dbContext = new CulturalHouseEntities())
+            {
+                Events currentEvent = new Events();
+                string fileName = newEventPhoto.GetUploadedFileName();
+                if (!String.IsNullOrEmpty(fileName))
+                {
+                    string saveImagePath = Server.MapPath("~/images/") + fileName;
+                    File.WriteAllBytes(saveImagePath, newEventPhoto.ContentBytes);
+                    currentEvent.Photo = "/images/" + fileName;
+                }
+                
+                currentEvent.Name = newEventName.Text;
+                currentEvent.LocationId = Convert.ToInt32(newEventLocation.Value);
+                DateTime date = Convert.ToDateTime(newEventDate.Value);
+                DateTime time = (DateTime)newEventTime.Value;
+                currentEvent.Data = new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second);
+                currentEvent.Price = Convert.ToDecimal(newEventPrice.Value);
+                currentEvent.AvailablePlaces = Convert.ToInt32(newEventAvailablePlaces.Value);
+                currentEvent.Approved = true;
+
+                dbContext.Entry(currentEvent).State = System.Data.Entity.EntityState.Added;
+                dbContext.SaveChanges();
+
+                newEventPopup.ShowOnPageLoad = false;
+                usersEventCardView.DataBind();
+            }
+        }
+
+        protected void usersEventCardView_CardDeleting(object sender, DevExpress.Web.Data.ASPxDataDeletingEventArgs e)
+        {
+            int eventId = Convert.ToInt32(e.Keys[0]);
+
+            using (CulturalHouseEntities dbContext = new CulturalHouseEntities())
+            {
+                Events currentEvent = dbContext.Events.FirstOrDefault(x => x.EventId == eventId);
+                if (currentEvent != null)
+                {
+                    if (currentEvent.Clients.Count != 0)
+                    {
+                        lblMessage.Text = "The event cannot be deleted because it has been already booked.";
+                        popupMessage.ShowOnPageLoad = true;
+                    }
+                    
+                    //stergereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+
+                }
+            }
+
+
+        }
+
+        protected void btnOK_Click(object sender, EventArgs e)
+        {
+            popupMessage.ShowOnPageLoad = false;
         }
     }
 }

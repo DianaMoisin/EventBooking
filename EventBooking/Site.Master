@@ -5,7 +5,7 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - My ASP.NET Application</title>
+    <title><%: Page.Title %> - CultureHouse</title>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
@@ -45,11 +45,9 @@
         </asp:ScriptManager>
         
         <div class="menu">
-            <a href="index.html" class="logo">
-
+            <a href="Home.aspx" class="logo">
                 <img src="./images/logo.png" alt="Logo" width="150px">
             </a>
-
             <nav>
                 <ul class="nav">
                     <li class="nav-a"><a href="Home.aspx">HOME</a></li>
@@ -58,15 +56,11 @@
                     <li class="nav-a"><a href="Contact.aspx">CONTACT</a></li>
                 </ul>
             </nav>
-
             <dx:ASPxButton runat="server" ID="btnLogin" Text="Login" CssClass="login" AutoPostBack="false">
                 <ClientSideEvents Click="function(s, e) { ShowLoginWindow(); }" />
             </dx:ASPxButton>
-
-
             <dx:ASPxLabel runat="server" ID="lblUser" ClientVisible="false"></dx:ASPxLabel>
         </div>
-
         <dx:ASPxHiddenField runat="server" ClientInstanceName="hiddenField" ID="hiddenField">
         </dx:ASPxHiddenField>
 
@@ -305,7 +299,6 @@
 
                 </div>
             </div>
-            <%--</div>--%>
                 <p>&copy; <%: DateTime.Now.Year %> - My ASP.NET Application</p>
             </footer>
         </div>
