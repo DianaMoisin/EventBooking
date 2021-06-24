@@ -156,6 +156,7 @@
       <DependentUpon>EventBookingModel.edmx</DependentUpon>
       <LastGenOutput>EventBookingModel.cs</LastGenOutput>
     </Content>
+    <Content Include="EventsGrid.aspx" />
     <Content Include="Home.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -267,6 +268,13 @@
     </Compile>
     <Compile Include="Events.cs">
       <DependentUpon>EventBookingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EventsGrid.aspx.cs">
+      <DependentUpon>EventsGrid.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventsGrid.aspx.designer.cs">
+      <DependentUpon>EventsGrid.aspx</DependentUpon>
     </Compile>
     <Compile Include="Home.aspx.cs">
       <DependentUpon>Home.aspx</DependentUpon>
