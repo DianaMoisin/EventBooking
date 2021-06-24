@@ -19,7 +19,9 @@
             <dx:CardViewComboBoxColumn FieldName="LocationId">
                 <PropertiesComboBox DataSourceID="dsLocations" TextField="Name" ValueField="LocationId" ValueType="System.Int32"></PropertiesComboBox>
             </dx:CardViewComboBoxColumn>
-            <dx:CardViewDateColumn FieldName="Data" />
+           <dx:CardViewDateColumn FieldName="Data" Visible="false" />
+            <dx:CardViewDateColumn FieldName="Date" UnboundType="String" />
+            <dx:CardViewDateColumn FieldName="Time" UnboundType="String" />
             <dx:CardViewColumn FieldName="Price" />
             <dx:CardViewColumn FieldName="AvailablePlaces" />
             <dx:CardViewColumn FieldName="Photo" Visible="false" />
@@ -27,9 +29,15 @@
         <CardLayoutProperties ColumnCount="1">
             <Items>
                 <dx:CardViewColumnLayoutItem ColumnName="Image" ShowCaption="False"></dx:CardViewColumnLayoutItem>
-                <dx:CardViewColumnLayoutItem ColumnName="Name" ShowCaption="False"></dx:CardViewColumnLayoutItem>
+                <dx:CardViewColumnLayoutItem 
+                    ColumnName="Name" 
+                    ShowCaption="False" 
+                    ParentContainerStyle-Font-Bold="true" 
+                    ParentContainerStyle-Font-Size="X-Large">
+                </dx:CardViewColumnLayoutItem>
                 <dx:CardViewColumnLayoutItem ColumnName="LocationId" Caption="Location"></dx:CardViewColumnLayoutItem>
-                <dx:CardViewColumnLayoutItem ColumnName="Data" Caption="Date"></dx:CardViewColumnLayoutItem>
+                <dx:CardViewColumnLayoutItem ColumnName="Date" Caption="Date"></dx:CardViewColumnLayoutItem>
+                 <dx:CardViewColumnLayoutItem ColumnName="Time" Caption="Time"></dx:CardViewColumnLayoutItem>
                 <dx:CardViewColumnLayoutItem ColumnName="Price"></dx:CardViewColumnLayoutItem>
                <dx:CardViewColumnLayoutItem ColumnName="AvailablePlaces"></dx:CardViewColumnLayoutItem>
 

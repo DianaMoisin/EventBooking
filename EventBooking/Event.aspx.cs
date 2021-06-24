@@ -136,8 +136,11 @@ namespace EventBooking
                             dbContext.SaveChanges();
                         }
                     }
-
                 }
+
+                popupMessage.HeaderText = "Event booking";
+                lblMessage.Text = "A place has been booked for you on this event.\n Thank you!";
+                popupMessage.ShowOnPageLoad = true;
             }
         }
 
@@ -197,6 +200,13 @@ namespace EventBooking
 
         protected void newButton_Click(object sender, EventArgs e)
         {
+            newEventPhoto.Value = null;
+            newEventName.Text = "";
+            newEventLocation.Value = null;
+            newEventDate.Value = null;
+            newEventTime.Value = null;
+            newEventPrice.Value = null;
+            newEventAvailablePlaces.Value = null;
             newEventPopup.ShowOnPageLoad = true;
         }
 
@@ -252,13 +262,17 @@ namespace EventBooking
                         lblMessage.Text = "The event cannot be deleted because it has been already booked.";
                         popupMessage.ShowOnPageLoad = true;
                     }
-                    
-                    //stergereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+                    else 
+                    {
+                        dbContext.Entry(currentEvent).State = System.Data.Entity.EntityState.Deleted;
+                        dbContext.SaveChanges();
+                    }
 
                 }
             }
 
-
+            e.Cancel = true;
+            usersEventCardView.DataBind();
         }
 
         protected void btnOK_Click(object sender, EventArgs e)

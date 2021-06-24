@@ -353,7 +353,7 @@
         PopupVerticalAlign="WindowCenter"
         Width="600px"
         HeaderText="Warning"
-        ContentStyle-Paddings-Padding="30px">
+        ContentStyle-Paddings-Padding="30px" ContentStyle-HorizontalAlign="Center">
         <ContentCollection>
             <dx:PopupControlContentControl>
                 <dx:ASPxLabel runat="server" ID="lblMessage"></dx:ASPxLabel>

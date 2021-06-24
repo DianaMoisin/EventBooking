@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -29,6 +30,15 @@ namespace EventBooking
             if (e.Column.FieldName == "Image")
             {
                 e.Value = Path + e.GetListSourceFieldValue("Photo");
+            }
+            if (e.Column.FieldName == "Date")
+            {
+                e.Value = ((DateTime)e.GetListSourceFieldValue("Data")).ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
+            }
+
+            if (e.Column.FieldName == "Time")
+            {
+                e.Value = ((DateTime)e.GetListSourceFieldValue("Data")).ToString("HH:mm", CultureInfo.InvariantCulture);
             }
         }
 

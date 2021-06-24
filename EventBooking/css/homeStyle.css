@@ -1,19 +1,6 @@
 ﻿.slideshow img {
     max-width: 100%;
     display: block;
-    /*            position: relative;
-            text-align: center;
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-            margin-bottom: 30px;
-            top: 0;
-            left: 0;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
-            padding: 5px;*/
 }
 
 .dxcvCard_Material, .dxcvFlowCard_Material, .dxcvBreakpointsCard_Material, .dxcvEmptyCard_Material, .dxcvEmptyHiddenCard_Material {
@@ -28,3 +15,4 @@
 .events {
     text-align: center;
 }
+
